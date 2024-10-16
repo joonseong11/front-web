@@ -16,20 +16,6 @@ export default function RootLayout({
     <html lang="ko">
       <body className="">
         <header>
-          <Link href="/">Relogging</Link>
-          <div>
-            <ul>
-              <li>
-                <Link href="/Tab1"> Tab1</Link>
-              </li>
-              <li>
-                <Link href="/Tab2"> Tab2</Link>
-              </li>
-              <li>
-                <Link href="/Tab3"> Tab3</Link>
-              </li>
-            </ul>
-          </div>
         </header>
         {children}
         <footer>푸터</footer>
