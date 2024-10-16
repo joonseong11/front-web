@@ -1,7 +1,10 @@
 'use client'
 
-import EventsContent from '@/components/EventsContent'
+import EventList from '@/components/EventListGrid'
+import EventListGrid from '@/components/EventListGrid'
+import EventsContent from '@/components/EventListGrid'
 import NewsContent from '@/components/NewsContent'
+import NewsListGrid from '@/components/NewsListGrid'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -13,8 +16,11 @@ type HomeProps = {
 }
 
 export default function Home() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('환경 뉴스')
-
+  const toEventDetail = (id: string) => {
+    router.push(`/events/${id}`)
+  }
   return (
     <div className="min-h-screen bg-gray-100">
       {/* 네비게이션 바 */}
@@ -80,80 +86,35 @@ export default function Home() {
             ))}
           </div>
         </div>
-
         {/* 탭 섹션 */}
         <div className="bg-white shadow rounded-lg p-6">
           <div className="flex border-b border-gray-200 mb-4">
-            <button 
+            <button
               className={`text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
-                activeTab === '환경 뉴스' ? 'text-blue-500 border-b-2 font-medium border-blue-500' : ''
+                activeTab === '환경 뉴스'
+                  ? 'text-blue-500 border-b-2 font-medium border-blue-500'
+                  : ''
               }`}
               onClick={() => setActiveTab('환경 뉴스')}
             >
               환경 뉴스
             </button>
-            <button 
+            <button
               className={`text-gray-600 py-4 px-6 block hover:text-blue-500 focus:outline-none ${
-                activeTab === '지자체 행사' ? 'text-blue-500 border-b-2 font-medium border-blue-500' : ''
+                activeTab === '지자체 행사'
+                  ? 'text-blue-500 border-b-2 font-medium border-blue-500'
+                  : ''
               }`}
               onClick={() => setActiveTab('지자체 행사')}
             >
               지자체 행사
             </button>
           </div>
-
           {/* 뉴스 그리드 */}
-          {activeTab === '환경 뉴스' ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[...Array(9)].map((_, i) => (
-                <div key={i} className="border rounded-lg overflow-hidden">
-                  <div className="p-4">
-                    <p className="text-sm text-gray-500 mb-2">
-                      10월 {12 - i}일
-                    </p>
-                    <h3 className="font-semibold mb-2">
-                      산림·토양 유형별 무척추동물 태풍 피해 큰 차이
-                    </h3>
-                    <p className="text-sm text-gray-600">
-                      태풍(열대성 저기압)으로 인한 토양 무척추동물 피해 정도가
-                      산림 유형과 토양종에 따라 달라질 수 있다는 연구결과가
-                      나왔다. 토양 무척추동물은 산림 생...
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {['서울', '경기도', '강원도'].map((region) => (
-                <div key={region} className="space-y-4">
-                  <h2 className="font-bold text-lg">{region}</h2>
-                  {[...Array(2)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="border rounded-lg overflow-hidden flex"
-                    >
-                      <div className="p-4 flex-grow">
-                        <p className="text-sm text-gray-500 mb-1">
-                          일회성 사업
-                        </p>
-                        <h3 className="font-semibold mb-2">
-                          2024 제로웨이스트 플로깅 (양재천 줍깅)
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          안산시 자원봉사 센터
-                        </p>
-                        <p className="text-sm text-gray-500">조회수 102</p>
-                      </div>
-                      <div className="w-1/3 bg-gray-200">
-                        {/* 이미지 플레이스홀더 */}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
+          {activeTab === '환경 뉴스' && <NewsListGrid />}
+          {/* 지자체 행사 그리드 */}
+          {activeTab === '지자체 행사' && <EventListGrid />}
+          {/* )} */}
         </div>
       </main>
     </div>
