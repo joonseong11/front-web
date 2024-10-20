@@ -13,13 +13,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return (
-    <html lang="ko">
-      <body className="">
-        <header></header>
-        <MSWProvider>{children}</MSWProvider>
-        <footer>푸터</footer>
-      </body>
-    </html>
-  )
+  return <CommonLayout>{children}</CommonLayout>
 }
