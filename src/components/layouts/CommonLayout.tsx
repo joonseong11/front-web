@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Re-logging',
 }
 
-export default function rootLayout({
+export default function CommonLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
