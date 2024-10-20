@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
-import './globals.css'
-import Link from 'next/link'
-import { MSWProvider } from './msw-provider'
+import CommonLayout from '@/components/layouts/CommonLayout'
 
 export const metadata: Metadata = {
   title: 'Re-logging',
