@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import CommonLayout from '@/components/layouts/CommonLayout'
+import ReactQueryProviders from '@/utils/reactQueryProvider'
+import { MswComponent } from '@/components/msw.component'
 
 export const metadata: Metadata = {
   title: 'Re-logging',
@@ -11,5 +13,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  return <CommonLayout>{children}</CommonLayout>
+  return (
+    <CommonLayout>
+      <MswComponent />
+      <ReactQueryProviders>{children}</ReactQueryProviders>
+    </CommonLayout>
+  )
 }
