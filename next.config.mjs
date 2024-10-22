@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['picsum.photos', 'avatars.githubusercontent.com'], // 허용할 도메인 목록을 지정
+    domains: [
+      'picsum.photos',
+      'avatars.githubusercontent.com',
+      'loremflickr.com',
+    ], // 허용할 도메인 목록을 지정
     remotePatterns: [
       {
         protocol: 'https',

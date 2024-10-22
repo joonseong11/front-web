@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import CommonLayout from '@/components/layouts/CommonLayout'
-import ReactQueryProviders from '@/utils/reactQueryProvider'
+import ReactQueryProviders from '@/utils/ReactQueryProvider'
 import { MswComponent } from '@/components/msw.component'
 
 export const metadata: Metadata = {
