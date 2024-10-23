@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import NewsCard from '@/components/NewsCard'
 import { NewsPagination } from '@/components/NewsPagination'
+import GptIcon from '@/assets/icon_gpt.svg'
 
 export default function NewsArticlePage() {
   const path = usePathname()
@@ -80,8 +81,8 @@ export default function NewsArticlePage() {
 
   // TODO article List 컴포넌트 분리하기
   return (
-    <article className="flex m-auto w-full max-h-[1355px] gap-6 max-w-7xl bg-white mt-16">
-      <div className="mx-auto flex flex-col gap-4">
+    <article className="flex m-auto max-h-[1355px] w-full  gap-6 max-w-7xl bg-white mt-16">
+      <div className="mx-auto h-full flex flex-col gap-4">
         <div className="w-3/5">
           <HomeButton />
           <header className="mb-6">
@@ -99,33 +100,27 @@ export default function NewsArticlePage() {
           </header>
         </div>
         <div className="container mx-auto">
-          <div className="flex gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
             {/* 왼쪽 섹션 (7/10) */}
-            <main className="w-3/5">
-              <div className="relative mb-6">
+            <section className="md:col-span-6">
+              <div className="relative mb-2">
                 <Image
                   src="https://picsum.photos/200/200"
                   alt="Article main image"
                   width={200}
                   height={200}
-                  className="w-full h-auto"
+                  className="w-full h-auto rounded-lg"
                 />
                 <div className="absolute bottom-4 right-4 bg-red-500 text-white rounded-full p-2"></div>
               </div>
               {/* 뉴스 썸네일 설명 */}
-              <p className="mb-6 text-sm text-gray-500">
+              <p className="mb-10 text-sm text-gray-500">
                 {article?.imageCaption}
               </p>
-              <div className="flex flex-col bg-background p-5 gap-4">
+              <div className="flex flex-col bg-background p-5 gap-4 rounded-lg">
                 <div className="rounded-lg w-full">
-                  <div className="flex items-center mb-6">
-                    <Image
-                      src="https://picsum.photos/200/300"
-                      alt="ChatGPT icon"
-                      width={40}
-                      height={40}
-                      className="rounded-full mr-2"
-                    />
+                  <div className="flex items-center mb-6 gap-3">
+                    <GptIcon />
                     <div>
                       <p className="font-semibold">ChatGPT</p>
                       <p className="text-sm text-textLight">
@@ -152,7 +147,7 @@ export default function NewsArticlePage() {
                 </div>
               </div>
               {/* 하단 기사 버튼 */}
-              <div className="flex justify-between items-center border-t pt-4">
+              <div className="flex justify-between items-center mt-10">
                 <Button
                   className="bg-solid"
                   onClick={() => {
@@ -175,11 +170,12 @@ export default function NewsArticlePage() {
                   다음 기사 보기
                 </Button>
               </div>
-            </main>
-            {/* 중앙 구분선 */}
-            <div className="border-l-2 border-gray-200"></div>
-            {/* 오른쪽 섹션 (3/10) */}
-            <section className="w-2/5 space-y-4 mb-6">
+            </section>
+            <div className="hidden md:flex md:col-span-1 justify-center">
+              <div className="w-[1px] h-full bg-gray-200"></div>
+            </div>
+
+            <section className="md:col-span-3 space-y-4 mb-6">
               {initialNewsData?.newsArticleSimpleResponseList?.map(
                 (article: NewsArticleCard) => (
                   <NewsCard article={article} />

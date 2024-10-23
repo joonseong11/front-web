@@ -15,8 +15,14 @@ export default function Home() {
     <QueryClientProvider client={queryClient}>
       <div className="min-h-screen bg-gray-100">
         {/* 네비게이션 바 */}
-        <section className="w-full">
-          <Image src="/logo.png" alt="로고 이미지" width="1920" height="548" />
+        <section className="w-dvw max-w-[1440px] margin-auto">
+          <Image
+            src="/logo.png"
+            alt="로고 이미지"
+            width="1000"
+            height="1000"
+            style={{ width: '100%', height: '100%' }}
+          />
         </section>
         {/* 메인 콘텐츠 */}
         <main className="max-w-7xl mx-auto mt-16">
