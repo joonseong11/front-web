@@ -1,130 +1,204 @@
-import EventSideBarArticle from '@/components/EventSideBarArticle'
+'use client'
+
+import { Pageable } from '@/components/EventListGrid'
 import HomeButton from '@/components/HomeButton'
+import { NewsPagination } from '@/components/NewsPagination'
+import { EventCard } from '@/components/ui/\bEventCard'
+import { Button } from '@/components/ui/button'
+import { EventContentCard, EventContentDetail } from '@/types/IEvent'
+import { MapPin } from 'lucide-react'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function EventDetailPage() {
+  const [initialEventData, setInitialEventData] = useState<{
+    content: EventContentCard[]
+    totalPages: number
+  } | null>(null)
+  const [currentPage, setCurrentPage] = useState(0) // 초기 페이지 1번으로 설정
+  const pageSize = 4 // 페이지 당 아이템 수
+  const path = usePathname()
+  const eventId = path.split('/').pop()
+  const [event, setEvent] = useState<EventContentDetail | null>(null)
+
+  // 이벤트 디테일 데이터 호출 api
+  const getEventData = async (eventId: string) => {
+    const data = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/ploggingEvent/${eventId}`,
+      {
+        method: 'get',
+      },
+    ).then((res) => {
+      return res.json()
+    })
+    console.log('data', data)
+    return data
+  }
+  // 사이드 바 호출 api
+  const getData = async ({ page, size }: Pageable) => {
+    const queryParams = new URLSearchParams({
+      page: page.toString(),
+      size,
+      // sort: 'createdAt', // 정렬 기준, 쉼표로 구분
+    })
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/ploggingEvent/list?${queryParams}`,
+    )
+    return response.json()
+  }
+
+  const handlePageChange = async (newPage: number) => {
+    const data = await getData({ page: newPage, size: pageSize.toString() })
+    setInitialEventData(data)
+    setCurrentPage(newPage)
+  }
+
+  useEffect(() => {
+    getData({ page: 0, size: pageSize.toString() }).then((result) => {
+      setInitialEventData(result)
+    })
+    if (eventId) {
+      getEventData(eventId).then((result) => {
+        setEvent(result)
+      })
+    }
+  }, [])
+
   return (
     <div className="container mx-auto px-4 py-8">
       <HomeButton />
-      <div className="flex gap-1">
+      <div className="flex gap-1 w-2/3">
+        <span className="text-1l text-orange mb-4">{event?.region}</span>
         <span className="text-1l text-gray-400 mb-4">일회성</span>
         <span className="text-1l text-gray-400 mb-4">봉사시간 부여</span>
       </div>
-      <h1 className="text-3xl font-bold mb-4">
-        2024 제로해 플로깅 (양재천 중심)
-      </h1>
-      <div className="text-sm text-gray-500 mb-4">참여: 양재도서관</div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <section className="md:col-span-2">
+      <div className="flex flex-col w-2/3 text-sm text-gray-500 mb-4  gap-1 justify-between ">
+        <h1 className="text-3xl font-bold mb-4">{event?.title}</h1>
+        <div className="flex justify-between">
+          <div className="flex">
+            <MapPin className="w-4 h-4" />
+            <p>양재도서관</p>
+          </div>
+          <div>
+            <p>조회수 {event?.hits}</p>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
+        {/* 왼쪽 사이드바 */}
+        <section className="md:col-span-6">
           <Image
-            src="https://picsum.photos/200/300"
+            src="https://picsum.photos/200/200"
             alt="Plogging event main image"
-            width={600}
-            height={400}
-            className="w-full rounded-lg mb-4"
+            width={100}
+            height={100}
+            className="w-full h-auto rounded-lg mb-8"
           />
-          <div className="p-4 rounded-lg mb-4 grid grid-cols-2 gap-2 text-sm">
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여기간:
-              </span>
-              2024-10-01 - 2024-11-30
+
+          {/* 이벤트 상세 정보 */}
+          <div className="bg-background p-6 rounded-lg">
+            <div className="rounded-lg mb-4 grid grid-cols-2 gap-2 text-sm">
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  참여기간
+                </span>
+                {event?.startDate ?? '-'} - {event?.endDate ?? '-'}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  참여대상
+                </span>
+                {event?.participationTarget ?? '-'}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  참여장소
+                </span>
+                {event?.location ?? '-'}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  지원내용
+                </span>
+                {event?.participationTarget ?? '-'}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  봉사점수
+                </span>
+                0.5시간
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  참여방법
+                </span>
+                양재천 ~ 양재천 일대를 걸으며 쓰레기(플로깅)
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  담당자명
+                </span>
+                {event?.organizerName ?? '-'}
+              </div>
+              <div className="flex gap-2 items-center">
+                <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                  전화번호
+                </span>
+                {event?.phoneNumber ?? '-'}
+              </div>
             </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여대상:
+            <div className="prose max-w-none text-sm">
+              <span className="bg-green p-1 border border-green- text-white font-semibold rounded-md">
+                상세내용
               </span>
-              누구나
+              <p>{event?.content ?? '-'}</p>
             </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여방법:
-              </span>
-              양재천 ~ 양재천 일대를 걸으며 쓰레기(플로깅)
-            </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여시간:
-              </span>
-              롤로깅 구조 (자갈, 잔디, 록타운)
-            </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여비용:
-              </span>
-              필수이용 시간 24시간 부여
-            </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여문의:
-              </span>
-              www.relogging.com
-            </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                참여장소:
-              </span>
-              양재천
-            </div>
-            <div>
-              <span className="bg-emerald-400 border border-green- text-white font-semibold">
-                전화번호:
-              </span>
-              010-7531-5522
-            </div>
+            <button className="flex w-1/5 p-3 justify-center margin-auto mt-8  text-white bg-green rounded-md">
+              참여하기
+            </button>
           </div>
-          <div className="prose max-w-none text-sm">
-            <p>
-              중고 제품 이용하고 연 쓰는 재활용 빈 용안 분들과 나누어 쓰기 위해
-            </p>
-            <p>
-              2024 자원봉사박람회 - 순환하는V페스티벌 - 롤 개최될 예정인데요~
-            </p>
-            <p>
-              재사용 특화와 자원순환 실천을 유도하는 축제를 인증 자원봉사로
-              진행하고자 하니
-            </p>
-            <p>나에게 꼭 필요한 물건 같 가져와 특별하시고,</p>
-            <p>상현 역지를 함께 다져보아요!</p>
-            <p className="font-semibold mt-4">
-              -참여조건: 누구나(자원봉사희망자 참여자)
-            </p>
-            <p>-행사일자: '24.10.12.(토) 13:1~17시</p>
-            <p>
-              -활동내용 : 자원순환박람회에 올고 물품 구매하는 재사용 물품
-              캠페인에 참여
-            </p>
-            <p className="font-semibold mt-4">-필수 제출 자료</p>
-            <p>
-              1) 사진 예 3 (박람회 현장 운영부스에서 자원순환 피켓들고 사진 /
-              구입 물건 들고 찍은 본인 인증 사진 / 구매 확인 스티커 붙은 리플렛
-              사진)
-            </p>
-            <p>2) 자원순환 실천내역 및 다짐 등 작성</p>
-            <p className="font-semibold mt-4">-증빙자료 제출 방법 및 절차</p>
-            <p>1) 활동인증 1건 인정</p>
-            <p>
-              2) 네이버 폼 https://naver.me/xpraj3q4 에 자료 업로드 후 제출 또는
-            </p>
-            <p>현장에서 사진 촬영, 우기 메시지 작성</p>
-            <p className="font-semibold mt-4">
-              -문의사항: 031-394-1365 기획홍보팀
-            </p>
-            <p className="text-xs">
-              ※ 시간인증은 이니셜 활동인증입니다.(1365포털에서 활동인증 인증서
-              출력 가능)
-            </p>
-          </div>
-          <div className="mt-8">
-            <button className="w-full text-center">참여하기</button>
+          <div className="flex justify-between items-center  mt-6">
+            <Button
+              className="bg-solid"
+              // onClick={() => {
+              //   if (eventId) {
+              //     f('prev', eventId)
+              //   }
+              // }}
+            >
+              이전 이벤트 보기
+            </Button>
+            <Button
+              className="bg-solid"
+              // onClick={() => {
+              //   if (articleId) {
+              //     fetchNewsArticle('next', articleId)
+              //   }
+              // }}
+            >
+              다음 이벤트 보기
+            </Button>
           </div>
         </section>
-        <section>
-          <h2 className="text-2xl font-bold mb-4">서울</h2>
-          {/* 이벤트 사이드바 아티클 컴포넌트 */}
-          {[...Array(5)].map((index) => (
-            <EventSideBarArticle key={index} />
+        {/* 중앙 Divider (1) */}
+        <div className="hidden md:flex md:col-span-1 justify-center">
+          <div className="w-[1px] h-full bg-gray-200"></div>
+        </div>
+
+        {/* 오른쪽 사이드바 */}
+        <section className="md:col-span-3 space-y-4 mb-6">
+          {initialEventData?.content?.map((eventData: EventContentCard) => (
+            <EventCard eventData={eventData} />
           ))}
+          <div className="mt-6">
+            <NewsPagination
+              currentPage={currentPage}
+              totalPage={initialEventData?.totalPages ?? 0}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </section>
       </div>
     </div>

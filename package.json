@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@mswjs/http-middleware": "^0.10.1",
+    "@svgr/webpack": "^8.1.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^20",
