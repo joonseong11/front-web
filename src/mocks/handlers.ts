@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { faker } from '@faker-js/faker'
 import { delay, http, HttpResponse } from 'msw'
 
@@ -64,7 +65,21 @@ export const handlers = [
 
   http.get('/api/newsArticles/:id/prev', ({ params }) => {
     const article = createNewsArticle()
-    article.id = parseInt(params.id as string)
+    article.id = faker.number.int({ min: 1, max: 1000 })
+
+    return HttpResponse.json(article)
+  }),
+
+  http.get('/api/ploggingEvent/:id/next', ({ params }) => {
+    const article = createPloggingEventDetail(parseInt(params.id as string))
+    article.id = faker.number.int({ min: 1, max: 1000 })
+
+    return HttpResponse.json(article)
+  }),
+
+  http.get('/api/ploggingEvent/:id/prev', ({ params }) => {
+    const article = createPloggingEventDetail(parseInt(params.id as string))
+    article.id = faker.number.int({ min: 1, max: 1000 })
 
     return HttpResponse.json(article)
   }),

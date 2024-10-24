@@ -14,7 +14,7 @@ interface NewsPaginationProps {
   onPageChange: (page: number) => void
 }
 
-export function NewsPagination({
+export function ContentsPagination({
   currentPage,
   totalPage,
   onPageChange,
