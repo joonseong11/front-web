@@ -36,7 +36,7 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
             alt={article.title}
             width={50}
             height={50}
-            style={{ width: '100px', height: '32px' }}
+            style={{ width: '100%', height: '100%' }}
             className="rounded-lg"
           />
         </div>
