@@ -24,7 +24,7 @@ export default function Home() {
       <main className="max-w-7xl mx-auto mt-16">
         {/* 헤더 섹션 */}
         {/* 탭 섹션 */}
-        <div className="bg-white shadow rounded-lg p-6">
+        <div className="bg-white shadow rounded-lg p-5 laptop:p-10">
           <div className="flex border-b border-gray-200 mb-4">
             <button
               className={`text-gray-600 py-4 px-6 block hover:text-textLight focus:outline-none ${
