@@ -9,11 +9,15 @@ const HomeButton = () => {
   return (
     <button
       className="
+        flex
+        flex-col
+        items-center
+        justify-center
         cursor-pointer
-        bg-background 
-        p-2
+        bg-solid 
+        w-10
+        h-10
         rounded-md 
-        mb-6 
         border-none 
         outline-none
         focus:outline-none  // 포커스 시에도 테두리 제거
