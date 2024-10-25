@@ -46,7 +46,6 @@ export default function NewsArticlePage() {
   })
   if (newsDetailIsLoading) return <div>loading ... </div>
   if (newsDetailIsError) return <div>Error: {newsDetailIsError}</div>
-
   const onChangeEventDetail = (type: 'prev' | 'next') => {
     if (!newsDetail?.id) return
 
@@ -96,7 +95,7 @@ export default function NewsArticlePage() {
             <section className="flex flex-col md:col-span-6 gap-10">
               <div className="relative mb-2">
                 <Image
-                  src="https://picsum.photos/200/200"
+                  src={newsDetail?.imagePath}
                   alt="Article main image"
                   width={200}
                   height={200}

@@ -5,6 +5,8 @@ const nextConfig = {
       'picsum.photos',
       'avatars.githubusercontent.com',
       'loremflickr.com',
+      'cdn.hkbs.co.kr',
+      'cdn.esgeconomy.com',
     ], // 허용할 도메인 목록을 지정
     remotePatterns: [
       {

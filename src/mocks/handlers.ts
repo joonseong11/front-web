@@ -86,7 +86,6 @@ export const handlers = [
 
   // 지자체 행사 mock logic
   http.get('/api/ploggingEvent/list', ({ request }) => {
-    console.log('request 이걸 봐', request)
     const url = new URL(request.url)
     const page = parseInt(url.searchParams.get('page') || '0')
     const size = parseInt(url.searchParams.get('size') || '10')
