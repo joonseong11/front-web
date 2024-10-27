@@ -12,7 +12,7 @@ const images = {
     height: 500,
   },
   tablet: {
-    src: '/tabletLogo.jpg',
+    src: '/mobileLogo.jpg',
     width: 768,
     height: 768,
   },

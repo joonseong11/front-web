@@ -11,10 +11,10 @@ async function fetchEventsArticle(page: number, size: number) {
   const queryParams = new URLSearchParams({
     page: page.toString(),
     size: size.toString(),
-    sort: 'createdAt,desc',
+    sort: 'desc',
   })
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ploggingEvent/list?${queryParams}}`,
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/ploggingEvent/list?${queryParams}`,
   )
   if (!response.ok) {
     throw new Error('Network response was not ok')
@@ -31,7 +31,6 @@ const fetchEventDetail = async (eventId: string) => {
   ).then((res) => {
     return res.json()
   })
-  console.log('data', data)
   return data
 }
 

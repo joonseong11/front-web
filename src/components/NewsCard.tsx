@@ -9,16 +9,45 @@ import {
 } from '@/components/ui/card'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useNewsQueries } from '@/hooks/useNewsQueries'
 
 const NewsCard = ({ article }: { article: NewsArticleCard }) => {
   const router = useRouter()
+  const {
+    // 이전 이벤트, 다음 이벤트
+    navigate,
+    // isNavigating,
+  } = useNewsQueries({
+    // currentPage,
+    // pageSize,
+    // articleId,
+  })
 
-  const onClickNewsDetail = (id: string) => {
-    router.push(`/news/${id}`)
+  const onClickNewsDetail = (type: 'main' | 'side') => {
+    if (type === 'side') {
+      // mutation 실행
+      navigate(
+        {
+          type: 'side',
+          currentId: article.id,
+        },
+        {
+          onSuccess: (article) => {
+            router.push(`/news/${article.id}`)
+          },
+          onError: (error: Error) => {
+            console.error('Navigation failed:', error)
+            // 에러 처리
+          },
+        },
+      )
+    } else {
+      router.push(`/news/${article.id}`)
+    }
   }
   return (
     <Card
-      onClick={() => onClickNewsDetail(article.id)}
+      onClick={() => onClickNewsDetail('side')}
       key={article.id}
       className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
     >
