@@ -81,7 +81,7 @@ export default function NewsArticlePage() {
             {/* 뉴스 정보 */}
             <div className="flex justify-between">
               <p className="text-sm text-text font-semibold">
-                {newsDetail?.source}
+                {newsDetail?.author}
               </p>
               <p className="text-sm text-gray-500">
                 조회수 {newsDetail?.hits} {newsDetail?.publishedAt} 발행
@@ -128,9 +128,7 @@ export default function NewsArticlePage() {
                       asChild
                       className="w-full bg-background text-textLight border"
                     >
-                      <Link href={`/news/${newsDetail?.source}`}>
-                        기사 전문 보기
-                      </Link>
+                      <Link href={`${newsDetail?.source}`}>기사 전문 보기</Link>
                     </Button>
                   </div>
                 </div>

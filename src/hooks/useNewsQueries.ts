@@ -8,6 +8,9 @@ interface INewsQueries {
 }
 
 async function fetchNewsArticle(articleId: string) {
+  if (!articleId) {
+    throw new Error('articleId is required')
+  }
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsArticles/${articleId}`,
   )
@@ -43,7 +46,7 @@ export const useNewsQueries = ({
   })
 
   const newsDetailQuery = useQuery({
-    queryKey: ['newsDetail', currentPage, pageSize],
+    queryKey: ['newsDetail', articleId],
     queryFn: () => fetchNewsArticle(articleId ?? ''),
     staleTime: 5 * 60 * 1000, // 데이터가 "신선"하다고 간주되는 시간 (5분)
     gcTime: 30 * 60 * 1000, // 데이터가 캐시에 유지되는 시간 (30분)
@@ -55,17 +58,30 @@ export const useNewsQueries = ({
       type,
       currentId,
     }: {
-      type: 'prev' | 'next'
+      type: 'prev' | 'next' | 'side'
       currentId: string
     }) => {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsArticles/${currentId}/${type}`,
-      )
-      if (!response.ok) throw new Error(`Failed to fetch ${type} event`)
+      let response = null
+      if (type === 'side') {
+        response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsArticles/${currentId}`,
+        )
+      }
+      if (type === 'prev' || type === 'next') {
+        response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/newsArticles/${currentId}/${type}`,
+        )
+      }
+      if (!response?.ok) throw new Error(`Failed to fetch ${type} event`)
 
       const nextEvent = await response.json()
       // 응답에서 받은 이벤트 데이터를 바로 캐시에 저장
-      queryClient.setQueryData(['newsDetail', currentPage, pageSize], nextEvent)
+      // 새로운 데이터를 캐시에 저장
+      queryClient.setQueryData(['newsDetail', nextEvent.id], nextEvent)
+
+      queryClient.invalidateQueries({
+        queryKey: ['newsDetail'],
+      })
 
       return nextEvent
     },
