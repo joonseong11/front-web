@@ -15,7 +15,7 @@ import LabeledContent from '@/components/LabeledContent'
 export default function EventDetailPage() {
   const [currentPage, setCurrentPage] = useState(0) // 초기 페이지 1번으로 설정
 
-  const pageSize = 4 // 페이지 당 아이템 수
+  const pageSize = 6 // 페이지 당 아이템 수
   const path = usePathname()
   const eventId = path.split('/').pop()
 

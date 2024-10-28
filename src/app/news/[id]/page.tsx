@@ -154,9 +154,13 @@ export default function NewsArticlePage() {
                 </Button>
               </div>
             </section>
+            {/* 중앙 Divider (1) */}
+
             <div className="hidden md:flex md:col-span-1 justify-center">
               <div className="w-[1px] h-full bg-gray-200"></div>
             </div>
+
+            {/* 오른쪽 사이드바 */}
             <section className="hidden tablet:grid laptop:grid md:col-span-3 space-y-4 mb-6">
               {newsList?.newsArticleSimpleResponseList?.map(
                 (article: NewsArticleCard) => (

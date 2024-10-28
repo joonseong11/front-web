@@ -83,7 +83,7 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
             src={article.imagePath ?? DEFAULT_IMAGE}
             alt={article?.title}
             fill
-            style={{ width: '100%', height: '100%' }}
+            sizes="w-100 h-100"
             className="rounded-lg"
           />
         </div>

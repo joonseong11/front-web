@@ -1,8 +1,9 @@
 import { EventContentCard } from '@/types/IEvent'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { MapPin, Clock } from 'lucide-react'
+import { DEFAULT_IMAGE } from '@/types/INews'
 
 export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
   const router = useRouter()
@@ -23,35 +24,48 @@ export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
 
   return (
     <Card
-      className="cursor-pointer hover:shadow-lg transition-all duration-300 bg-white"
+      className="
+    cursor-pointer
+    hover:shadow-lg
+   transition-shadow
+    p-4
+    duration-300 
+    w-full
+    overflow-hidden
+    flex              
+    flex-col 
+    max-w-[378px]
+    min-h-[200px]
+    laptop:max-w-[378px]    
+    laptop:min-h-[200px]  
+    aspect-[378/175]
+    "
       onClick={() => onClickEventDetail(eventData.id)}
     >
-      <CardContent className="p-6">
-        {/* 상단 정보 */}
-        <div className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <span className="text-orange text-xs">{eventData.region}</span>
-          </div>
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            {/* 제목 - 모바일에서는 전체 너비, 데스크톱에서는 60% */}
-            <h3 className="w-full md:flex-[6] text-xl font-bold line-clamp-2">
-              {eventData.title}
-            </h3>
+      {/* <CardContent className="p-6"> */}
+      {/* 상단 정보 */}
+      <div className="w-full h-full flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <span className="text-orange text-xs">{eventData.region}</span>
+        </div>
+        <div className="flex md:flex-row items-center gap-4">
+          {/* 제목 - 모바일에서는 전체 너비, 데스크톱에서는 60% */}
+          <h3 className="w-full md:flex-[6] text-xl font-bold line-clamp-2">
+            {eventData.title}
+          </h3>
+          {/* 이미지 - 모바일에서는 전체 너비, 데스크톱에서는 40% */}
 
-            {/* 이미지 - 모바일에서는 전체 너비, 데스크톱에서는 40% */}
-            {eventData.image?.url && (
-              <div className="w-full md:flex-[4] relative h-[100px] rounded-lg">
-                <Image
-                  src={eventData.image.url}
-                  alt={eventData.image.caption || eventData.title}
-                  width={100}
-                  height={100}
-                  style={{ width: '100%', height: '100%' }}
-                  className="object-cover rounded-lg"
-                />
-              </div>
-            )}
+          <div className="w-full md:flex-[4] relative h-[100px] rounded-lg">
+            <Image
+              src={eventData.image.url ?? DEFAULT_IMAGE}
+              alt={eventData.image.caption || eventData.title}
+              fill
+              sizes="w-100 h-100"
+              className="object-cover rounded-lg"
+            />
           </div>
+        </div>
+        <div>
           {/* 위치 정보 */}
           <div className="flex items-center gap-2 text-gray-600 justify-between">
             <div className="flex gap-2">
@@ -66,13 +80,14 @@ export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
           {/* 날짜 정보 */}
           <div className="flex items-center gap-2 text-gray-600">
             <Clock className="w-4 h-4" />
-            <span className="text-sm">
+            <p className="text-sm">
               {formatDate(eventData.startDate)} ~{' '}
               {formatDate(eventData.endDate)}
-            </span>
+            </p>
           </div>
         </div>
-      </CardContent>
+      </div>
+      {/* </CardContent> */}
     </Card>
   )
 }
