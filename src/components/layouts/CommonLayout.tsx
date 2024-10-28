@@ -38,7 +38,7 @@ export default function CommonLayout({
           </div>
         </nav>
         {children}
-        <footer>푸터</footer>
+        {/* <footer>푸터</footer> */}
       </body>
     </html>
   )

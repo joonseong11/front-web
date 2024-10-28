@@ -1,4 +1,4 @@
-import { NewsArticleCard } from '@/types/INews'
+import { DEFAULT_IMAGE, NewsArticleCard } from '@/types/INews'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
@@ -80,10 +80,7 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
         </div>
         <div className="flex-[4] relative">
           <Image
-            src={
-              article?.imagePath ??
-              'https://www.gravatar.com/avatar/iml1111?d=identicon&s=400'
-            }
+            src={article.imagePath ?? DEFAULT_IMAGE}
             alt={article?.title}
             fill
             style={{ width: '100%', height: '100%' }}

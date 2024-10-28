@@ -1,7 +1,7 @@
 'use client'
 
 import HomeButton from '@/components/HomeButton'
-import { NewsArticleCard } from '@/types/INews'
+import { DEFAULT_IMAGE, NewsArticleCard } from '@/types/INews'
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -95,7 +95,7 @@ export default function NewsArticlePage() {
             <section className="flex flex-col md:col-span-6 gap-10">
               <div className="relative mb-2">
                 <Image
-                  src={newsDetail?.imagePath}
+                  src={newsDetail?.imagePath ?? DEFAULT_IMAGE}
                   alt="Article main image"
                   width={200}
                   height={200}
