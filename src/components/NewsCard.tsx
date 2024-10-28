@@ -1,26 +1,12 @@
 import { NewsArticleCard } from '@/types/INews'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useNewsQueries } from '@/hooks/useNewsQueries'
 
 const NewsCard = ({ article }: { article: NewsArticleCard }) => {
   const router = useRouter()
-  const defaultArticle = {
-    title: '제목 없음',
-    aiSummary: '내용 없음',
-    publishedAt: '날짜 정보 없음',
-    imagePath: '/default-image.jpg', // 기본 이미지 경로
-    id: '',
-  }
-  const safeArticle = { ...defaultArticle, ...article }
   const {
     // 이전 이벤트, 다음 이벤트
     navigate,
@@ -49,30 +35,60 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
     }
   }
   return (
+    //카드 컨테이너
     <Card
       onClick={() => onClickNewsDetail('side')}
-      key={safeArticle?.id}
-      className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
+      key={article?.id}
+      className="
+        cursor-pointer 
+        hover:shadow-lg 
+        transition-shadow
+        p-4
+        duration-300
+        w-full
+        max-w-[378px]           
+        min-h-[200px]         
+        laptop:max-w-[378px]    /* 데스크탑 너비 */
+        laptop:min-h-[200px]    /* 데스크탑 높이 */
+        aspect-[378/175]
+        overflow-hidden
+        flex              
+        flex-col 
+        gap-4
+        "
     >
-      <CardHeader>
-        <p className="text-sm text-gray-500">{safeArticle?.publishedAt}</p>
-        <CardTitle className="mb-2">{safeArticle?.title}</CardTitle>
+      {/* 카드 헤더 */}
+      <CardHeader className="p-0 h-[25%]  space-y-0">
+        <p className="text-sm text-gray-500">{article?.publishedAt}</p>
+        <CardTitle className="mb-2 text-lg line-clamp-1 flex-shrink-0">
+          {article?.title}
+        </CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-4">
-        <CardDescription className="flex-[7] overflow-hidden">
-          {safeArticle?.aiSummary}
-        </CardDescription>
-        <div className="flex-[3] relative">
-          {safeArticle?.imagePath && (
-            <Image
-              src={safeArticle?.imagePath}
-              alt={safeArticle?.title}
-              width={50}
-              height={50}
-              style={{ width: '100%', height: '100%' }}
-              className="rounded-lg"
-            />
-          )}
+      {/* 카드 컨텐츠 */}
+      <CardContent className="flex gap-4 p-0 flex-1 min-h-0  h-[75%] flex-shrink-0">
+        <div className="flex-[6] flex items-center">
+          <p
+            className="
+            text-sm 
+            text-muted-foreground
+            line-clamp-3
+            overflow-hidden
+          "
+          >
+            {article?.aiSummary}
+          </p>
+        </div>
+        <div className="flex-[4] relative">
+          <Image
+            src={
+              article?.imagePath ??
+              'https://www.gravatar.com/avatar/iml1111?d=identicon&s=400'
+            }
+            alt={article?.title}
+            fill
+            style={{ width: '100%', height: '100%' }}
+            className="rounded-lg"
+          />
         </div>
       </CardContent>
     </Card>
