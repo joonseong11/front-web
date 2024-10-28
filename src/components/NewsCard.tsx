@@ -13,15 +13,18 @@ import { useNewsQueries } from '@/hooks/useNewsQueries'
 
 const NewsCard = ({ article }: { article: NewsArticleCard }) => {
   const router = useRouter()
+  const defaultArticle = {
+    title: '제목 없음',
+    aiSummary: '내용 없음',
+    publishedAt: '날짜 정보 없음',
+    imagePath: '/default-image.jpg', // 기본 이미지 경로
+    id: '',
+  }
+  const safeArticle = { ...defaultArticle, ...article }
   const {
     // 이전 이벤트, 다음 이벤트
     navigate,
-    // isNavigating,
-  } = useNewsQueries({
-    // currentPage,
-    // pageSize,
-    // articleId,
-  })
+  } = useNewsQueries({})
 
   const onClickNewsDetail = (type: 'main' | 'side') => {
     if (type === 'side') {
@@ -48,26 +51,28 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
   return (
     <Card
       onClick={() => onClickNewsDetail('side')}
-      key={article.id}
+      key={safeArticle?.id}
       className="cursor-pointer hover:shadow-lg transition-shadow duration-300"
     >
       <CardHeader>
-        <p className="text-sm text-gray-500">{article.publishedAt}</p>
-        <CardTitle className="mb-2">{article.title}</CardTitle>
+        <p className="text-sm text-gray-500">{safeArticle?.publishedAt}</p>
+        <CardTitle className="mb-2">{safeArticle?.title}</CardTitle>
       </CardHeader>
       <CardContent className="flex gap-4">
         <CardDescription className="flex-[7] overflow-hidden">
-          {article.aiSummary}
+          {safeArticle?.aiSummary}
         </CardDescription>
         <div className="flex-[3] relative">
-          <Image
-            src={article.imagePath}
-            alt={article.title}
-            width={50}
-            height={50}
-            style={{ width: '100%', height: '100%' }}
-            className="rounded-lg"
-          />
+          {safeArticle?.imagePath && (
+            <Image
+              src={safeArticle?.imagePath}
+              alt={safeArticle?.title}
+              width={50}
+              height={50}
+              style={{ width: '100%', height: '100%' }}
+              className="rounded-lg"
+            />
+          )}
         </div>
       </CardContent>
     </Card>
