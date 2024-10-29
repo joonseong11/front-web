@@ -9,10 +9,10 @@ export default function LabeledContent({
 }: LabeledContentProps) {
   return (
     <div className="flex gap-2 items-center">
-      <span className="bg-green whitespace-nowrap p-1 border border-green- text-white font-semibold rounded-md">
+      <span className="bg-green whitespace-nowrap p-1 border border-green- text-white text-xs font-semibold rounded-md">
         {label ?? '-'}
       </span>
-      {content ?? '-'}
+      <span className="text-xs text-text">{content ?? '-'}</span>
     </div>
   )
 }

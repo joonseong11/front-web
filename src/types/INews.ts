@@ -1,9 +1,12 @@
+export const DEFAULT_IMAGE =
+  'https://www.gravatar.com/avatar/iml1111?d=identicon&s=400' as const
+
 export interface NewsArticleCard {
   id: string
   title: string
   aiSummary: string
   publishedAt: string // 'YYYY-MM-DD' 형식의 날짜 문자열
-  imagePath: string
+  imagePath?: string
 }
 
 export interface NewsArticleSimpleResponse {

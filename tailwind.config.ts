@@ -22,7 +22,7 @@ const config: Config = {
         desktop: '1536px',
       },
       colors: {
-        text: '#22831',
+        text: '#222831',
         textLight: '#9BA2AD',
         solid: '#D2D2D2',
         white: '#FFFFFF',

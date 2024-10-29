@@ -1,4 +1,4 @@
-import { NewsArticleCard } from '@/types/INews'
+import { DEFAULT_IMAGE, NewsArticleCard } from '@/types/INews'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Image from 'next/image'
@@ -59,8 +59,8 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
     >
       {/* 카드 헤더 */}
       <CardHeader className="p-0 h-[25%]  space-y-0">
-        <p className="text-sm text-gray-500">{article?.publishedAt}</p>
-        <CardTitle className="mb-2 text-lg line-clamp-1 flex-shrink-0">
+        <p className="text-sm text-textLight">{article?.publishedAt}</p>
+        <CardTitle className="mb-2 text-lg text-text font-bold line-clamp-1 flex-shrink-0">
           {article?.title}
         </CardTitle>
       </CardHeader>
@@ -69,7 +69,8 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
         <div className="flex-[6] flex items-center">
           <p
             className="
-            text-sm 
+            text-xs
+            text-text
             text-muted-foreground
             line-clamp-3
             overflow-hidden
@@ -80,13 +81,10 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
         </div>
         <div className="flex-[4] relative">
           <Image
-            src={
-              article?.imagePath ??
-              'https://www.gravatar.com/avatar/iml1111?d=identicon&s=400'
-            }
+            src={article.imagePath ?? DEFAULT_IMAGE}
             alt={article?.title}
             fill
-            style={{ width: '100%', height: '100%' }}
+            sizes="w-100 h-100"
             className="rounded-lg"
           />
         </div>

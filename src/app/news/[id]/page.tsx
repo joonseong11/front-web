@@ -1,7 +1,7 @@
 'use client'
 
 import HomeButton from '@/components/HomeButton'
-import { NewsArticleCard } from '@/types/INews'
+import { DEFAULT_IMAGE, NewsArticleCard } from '@/types/INews'
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -68,111 +68,104 @@ export default function NewsArticlePage() {
   if (newsDetailIsError || !newsDetail)
     return <div>Error: {newsDetailIsError}</div>
   if (newsDetailError) return <div>Error: {newsDetailError.message}</div>
-  // TODO article List 컴포넌트 분리하기
   return (
     <article className="flex m-auto max-h-[1355px] w-full  gap-6 max-w-7xl bg-white mt-16 p-5">
-      <div className="mx-auto h-full flex flex-col gap-10">
-        {/* 상단 제목  */}
-        <div className="flex flex-col gap-10 w-full laptop:w-3/5">
-          <HomeButton />
-          <header className="mb-6">
-            {/* 뉴스 헤드라인 */}
-            <h1 className="text-2xl font-bold mb-2">{newsDetail?.title}</h1>
-            {/* 뉴스 정보 */}
-            <div className="flex justify-between">
-              <p className="text-sm text-text font-semibold">
-                {newsDetail?.author}
-              </p>
-              <p className="text-sm text-gray-500">
-                조회수 {newsDetail?.hits} {newsDetail?.publishedAt} 발행
-              </p>
-            </div>
-          </header>
-        </div>
-        <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
-            {/* 왼쪽 섹션 (7/10) */}
-            <section className="flex flex-col md:col-span-6 gap-10">
-              <div className="relative mb-2">
-                <Image
-                  src={newsDetail?.imagePath}
-                  alt="Article main image"
-                  width={200}
-                  height={200}
-                  className="w-full h-auto rounded-lg"
-                />
-                {/* 뉴스 썸네일 설명 */}
-                <p className="mt-2 text-sm text-gray-500">
-                  {newsDetail?.imageCaption}
+      <div className="w-full flex gap-6">
+        {/* 왼쪽 섹션 (7/10) */}
+        <section className="flex flex-[8] flex-col md:col-span-6 gap-10">
+          {/* 상단 제목  */}
+          <div className="flex flex-col gap-10 w-full">
+            <HomeButton />
+            <header className="mb-6">
+              {/* 뉴스 헤드라인 */}
+              <h1 className="text-2xl font-bold mb-2">{newsDetail?.title}</h1>
+              {/* 뉴스 정보 */}
+              <div className="flex justify-between">
+                <p className="text-sm text-text font-semibold">
+                  {newsDetail?.author}
+                </p>
+                <p className="text-sm text-gray-500">
+                  조회수 {newsDetail?.hits} {newsDetail?.publishedAt} 발행
                 </p>
               </div>
-              <div className="flex flex-col bg-background p-5 gap-4 rounded-lg">
-                <div className="rounded-lg w-full">
-                  <div className="flex items-center mb-6 gap-3">
-                    <GptIcon />
-                    <div>
-                      <p className="font-semibold">ChatGPT</p>
-                      <p className="text-sm text-textLight">
-                        <span className="text-green">AI</span>가 기사를 아래와
-                        같이
-                        <span className="text-green"> 요약</span>
-                        했어요.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mb-6">
-                    <p>{newsDetail?.aiSummary}</p>
-                  </div>
-                  <div>
-                    <Button
-                      asChild
-                      className="w-full bg-background text-textLight border"
-                    >
-                      <Link href={`${newsDetail?.source}`}>기사 전문 보기</Link>
-                    </Button>
-                  </div>
+            </header>
+          </div>
+          <div className="mb-2">
+            <Image
+              src={newsDetail?.imagePath ?? DEFAULT_IMAGE}
+              alt="Article main image"
+              width={200}
+              height={200}
+              className="w-full h-auto rounded-lg"
+            />
+            {/* 뉴스 썸네일 설명 */}
+            <p className="mt-2 text-sm text-gray-500">
+              {newsDetail?.imageCaption}
+            </p>
+          </div>
+          <div className="flex flex-col bg-background p-5 gap-4 rounded-lg">
+            <div className="rounded-lg w-full">
+              <div className="flex items-center mb-6 gap-3">
+                <GptIcon />
+                <div>
+                  <p className="font-semibold">ChatGPT</p>
+                  <p className="text-sm text-textLight">
+                    <span className="text-green">AI</span>가 기사를 아래와 같이
+                    <span className="text-green"> 요약</span>
+                    했어요.
+                  </p>
                 </div>
               </div>
-              {/* 하단 기사 버튼 */}
-              <div className="flex justify-between items-center">
+              <div className="mb-6">
+                <p>{newsDetail?.aiSummary}</p>
+              </div>
+              <div>
                 <Button
-                  className="bg-solid"
-                  onClick={() => {
-                    onChangeEventDetail('prev')
-                  }}
+                  asChild
+                  className="w-full bg-background text-textLight border"
                 >
-                  이전 기사 보기
-                </Button>
-
-                <Button
-                  className="bg-solid"
-                  onClick={() => {
-                    onChangeEventDetail('next')
-                  }}
-                >
-                  다음 기사 보기
+                  <Link href={`${newsDetail?.source}`}>기사 전문 보기</Link>
                 </Button>
               </div>
-            </section>
-            <div className="hidden md:flex md:col-span-1 justify-center">
-              <div className="w-[1px] h-full bg-gray-200"></div>
             </div>
-            <section className="hidden tablet:grid laptop:grid md:col-span-3 space-y-4 mb-6">
-              {newsList?.newsArticleSimpleResponseList?.map(
-                (article: NewsArticleCard) => (
-                  <NewsCard article={article} key={article.id} />
-                ),
-              )}
-              <div className="mt-6">
-                <ContentsPagination
-                  currentPage={currentPage}
-                  totalPage={newsList?.totalPage ?? 0}
-                  onPageChange={handlePageChange}
-                />
-              </div>
-            </section>
           </div>
-        </div>
+          {/* 하단 기사 버튼 */}
+          <div className="flex justify-between items-center">
+            <Button
+              className="bg-solid"
+              onClick={() => {
+                onChangeEventDetail('prev')
+              }}
+            >
+              이전 기사 보기
+            </Button>
+            <Button
+              className="bg-solid"
+              onClick={() => {
+                onChangeEventDetail('next')
+              }}
+            >
+              다음 기사 보기
+            </Button>
+          </div>
+        </section>
+        {/* 중앙 Divider */}
+        <div className="hidden laptop:block w-[1px] bg-gray-200 h-auto" />
+        {/* 오른쪽 사이드바 */}
+        <section className="hidden laptop:block flex-[2] space-y-4">
+          {newsList?.newsArticleSimpleResponseList?.map(
+            (article: NewsArticleCard) => (
+              <NewsCard article={article} key={article.id} />
+            ),
+          )}
+          <div className="mt-6">
+            <ContentsPagination
+              currentPage={currentPage}
+              totalPage={newsList?.totalPage ?? 0}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        </section>
       </div>
     </article>
   )
