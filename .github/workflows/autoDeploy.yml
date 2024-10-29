@@ -26,10 +26,10 @@ jobs:
         with:
           source-directory: 'output'
           destination-github-username: [asroq1]
-          destination-repository-name: [vercel-relogging-web] # 테스트용 레포지토리
+          destination-repository-name: [vercel-relogging-test] # 테스트용 레포지토리
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
-          target-branch: develop # 테스트 레포지토리의 타겟 브랜치
+          target-branch: main # 테스트 레포지토리의 타겟 브랜치
           create-target-branch: true
       - name: Test get variable exported by push-to-another-repository
         run: echo $DESTINATION_CLONED_DIRECTORY
