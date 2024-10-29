@@ -50,7 +50,7 @@ export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
         </div>
         <div className="flex md:flex-row items-center gap-4">
           {/* 제목 - 모바일에서는 전체 너비, 데스크톱에서는 60% */}
-          <h3 className="w-full md:flex-[6] text-xl font-bold line-clamp-2">
+          <h3 className="w-full md:flex-[6] text-lg text-text font-bold line-clamp-2">
             {eventData.title}
           </h3>
           {/* 이미지 - 모바일에서는 전체 너비, 데스크톱에서는 40% */}
@@ -67,7 +67,7 @@ export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
         </div>
         <div>
           {/* 위치 정보 */}
-          <div className="flex items-center gap-2 text-gray-600 justify-between">
+          <div className="flex items-center gap-2 text-text justify-between">
             <div className="flex gap-2">
               <MapPin className="w-4 h-4" />
               <span className="text-sm">{eventData.location}</span>
@@ -78,7 +78,7 @@ export const EventCard = ({ eventData }: { eventData: EventContentCard }) => {
           </div>
 
           {/* 날짜 정보 */}
-          <div className="flex items-center gap-2 text-gray-600">
+          <div className="flex items-center gap-2 text-text">
             <Clock className="w-4 h-4" />
             <p className="text-sm">
               {formatDate(eventData.startDate)} ~{' '}

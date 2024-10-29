@@ -59,8 +59,8 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
     >
       {/* 카드 헤더 */}
       <CardHeader className="p-0 h-[25%]  space-y-0">
-        <p className="text-sm text-gray-500">{article?.publishedAt}</p>
-        <CardTitle className="mb-2 text-lg line-clamp-1 flex-shrink-0">
+        <p className="text-sm text-textLight">{article?.publishedAt}</p>
+        <CardTitle className="mb-2 text-lg text-text font-bold line-clamp-1 flex-shrink-0">
           {article?.title}
         </CardTitle>
       </CardHeader>
@@ -69,7 +69,8 @@ const NewsCard = ({ article }: { article: NewsArticleCard }) => {
         <div className="flex-[6] flex items-center">
           <p
             className="
-            text-sm 
+            text-xs
+            text-text
             text-muted-foreground
             line-clamp-3
             overflow-hidden

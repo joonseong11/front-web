@@ -14,8 +14,8 @@ export const MswComponent = () => {
         })()
       } else {
         ;(async () => {
-          const { worker } = await import('@/mocks/browser')
-          worker.start()
+          // const { worker } = await import('@/mocks/browser') // url 에러 때문에 제거
+          // worker.start()
         })()
       }
     }

@@ -62,34 +62,38 @@ export default function EventDetailPage() {
     )
   }
   return (
-    <div className="flex flex-col gap-10 p-5">
-      <HomeButton />
-      {/* 이벤트 상단 제목 */}
-      <div className="flex flex-col w-full laptop:w-2/3 text-sm text-gray-500 mb-4  gap-1 justify-between ">
-        <div className="flex gap-1 w-2/3">
-          <span className="text-1l text-orange mb-4">
-            {eventDetail?.region}
-          </span>
-          <span className="text-1l text-gray-400 mb-4">일회성</span>
-          <span className="text-1l text-gray-400 mb-4">봉사시간 부여</span>
-        </div>
-        <h1 className="text-3xl font-bold mb-4">{eventDetail?.title}</h1>
-        <div className="flex justify-between">
-          <div className="flex">
-            <MapPin className="w-4 h-4" />
-            <p>양재도서관</p>
-          </div>
-          <div>
-            <p>조회수 {eventDetail?.hits}</p>
-          </div>
-        </div>
-      </div>
+    <article className="flex m-auto max-h-[1355px] w-full  gap-6 max-w-7xl bg-white mt-16 p-5">
       {/* // 이벤트 이미지 밎 상세 정보 */}
-      <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
+      <div className="w-full flex gap-6">
         {/* 왼쪽 사이드바 */}
-        <section className="flex flex-col gap-10 md:col-span-6">
-          {/* <div></div> */}
-          {/* 이벤트 이미지 */}
+        <section className="flex flex-[8] flex-col md:col-span-6 gap-10">
+          {/* 이벤트 상단 제목 */}
+          <div className="flex flex-col gap-10 w-full">
+            <HomeButton />
+            <header className="flex flex-col gap-2">
+              <div className="flex gap-2 w-full">
+                <span className="text-sm text-orange font-bold">
+                  {eventDetail?.region}
+                </span>
+                <span className="text-sm text-textLight font-bold">일회성</span>
+                <span className="text-sm text-textLight font-bold">
+                  봉사시간 부여
+                </span>
+              </div>
+              <h1 className="text-3xl font-bold">{eventDetail?.title}</h1>
+              <div className="flex justify-between">
+                <div className="flex items-center">
+                  <MapPin className="w-4 h-4" />
+                  <p className="text-sm text-text font-bold">양재도서관</p>
+                </div>
+                <div>
+                  <p className="text-sm text-textLight">
+                    조회수 {eventDetail?.hits}
+                  </p>
+                </div>
+              </div>
+            </header>
+          </div>
           <div>
             <Image
               src="https://picsum.photos/200/200"
@@ -137,15 +141,17 @@ export default function EventDetailPage() {
                 content={eventDetail?.phoneNumber ?? '-'}
               />
             </div>
-            <div className="prose max-w-none text-sm">
-              <span className="bg-green whitespace-nowrap p-1 border border-green- text-white font-semibold rounded-md">
+            <div className="prose max-w-none text-sm space-y-4">
+              <span className="bg-green whitespace-nowrap p-1 border border-green- text-white text-xs font-semibold rounded-md">
                 상세내용
               </span>
-              <p className="mt-4">{eventDetail?.content ?? '-'}</p>
+              <p className="text-xs text-text mb-4">
+                {eventDetail?.content ?? '-'}
+              </p>
             </div>
-            <button className="flex w-3/5 laptop:w-2/5 p-3 justify-center margin-auto text-white bg-green rounded-md mt-4">
+            {/* <button className="flex w-3/5 laptop:w-2/5 p-3 justify-center margin-auto text-white bg-green rounded-md mt-4">
               참여하기
-            </button>
+            </button> */}
           </div>
           <div className="flex justify-between items-center">
             <Button
@@ -166,13 +172,11 @@ export default function EventDetailPage() {
             </Button>
           </div>
         </section>
-        {/* 중앙 Divider (1) */}
-        <div className="hidden md:flex md:col-span-1 justify-center">
-          <div className="w-[1px] h-full bg-gray-200"></div>
-        </div>
+        {/* 중앙 Divider */}
+        <div className="hidden laptop:block w-[1px] bg-gray-200 h-auto" />
 
         {/* 오른쪽 사이드바 */}
-        <section className="hidden tablet:grid laptop:grid md:col-span-3 space-y-4 mb-6">
+        <section className="hidden laptop:block flex-[2] space-y-4">
           {eventsListIsLoading && <div>sideData...</div>}
           {eventListIsError && <div>Error: {eventListIsError}</div>}
           {eventsList?.content?.map((eventData: EventContentCard) => (
@@ -187,6 +191,6 @@ export default function EventDetailPage() {
           </div>
         </section>
       </div>
-    </div>
+    </article>
   )
 }
