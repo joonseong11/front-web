@@ -24,8 +24,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AUTO_INFORMATION }}
         with:
           source-directory: 'output'
-          destination-github-username: [asroq1]
-          destination-repository-name: [vercel-relogging-test]
+          destination-github-username: asroq1
+          destination-repository-name: vercel-relogging-test
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
