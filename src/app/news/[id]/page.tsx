@@ -37,7 +37,7 @@ export default function NewsArticlePage() {
     newsListError,
     newsListIsError,
     newsListIsLoading,
-
+    refetch,
     // 이전 이벤트, 다음 이벤트
     navigate,
     // isNavigating,
@@ -187,11 +187,14 @@ export default function NewsArticlePage() {
         {/* 오른쪽 사이드바 */}
         <ContentList
           contentData={newsList?.newsArticleSimpleResponseList}
-          eventType="news"
-          styleType="side"
-          totalPage={newsList?.totalPage}
+          totalPage={newsList?.totalPages}
           currentPage={currentPage}
           handlePageChange={handlePageChange}
+          cotentListIsLoading={newsListIsLoading}
+          contentListIsError={newsListIsError}
+          refetch={refetch}
+          eventType={'news'}
+          styleType={'side'}
         />
       </div>
     </article>

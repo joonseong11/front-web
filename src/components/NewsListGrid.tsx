@@ -1,5 +1,3 @@
-import { NewsArticleCard } from '@/types/INews'
-import { ContentsPagination } from './ContentsPagination'
 import { useState } from 'react'
 import { useNewsQueries } from '@/hooks/useNewsQueries'
 import { LoadingSkeleton } from './status/LoadingSkeleton'
@@ -11,14 +9,18 @@ export default function NewsListGrid() {
   const [currentPage, setCurrentPage] = useState(0) // 초기 페이지 1번으로 설정
   const pageSize = 15 // 페이지 당 아이템 수
 
-  const { newsList, newsListError, newsListIsError, newsListIsLoading } =
-    useNewsQueries({ currentPage, pageSize })
+  const {
+    newsList,
+    newsListError,
+    newsListIsError,
+    newsListIsLoading,
+    refetch,
+  } = useNewsQueries({ currentPage, pageSize })
 
   const handlePageChange = async (newPage: number) => {
     setCurrentPage(newPage)
   }
 
-  // TODO article List 컴포넌트 분리하기
   if (newsListIsLoading) return <LoadingSkeleton />
   if (newsListError || !newsList || newsListIsError) {
     return (
@@ -40,12 +42,15 @@ export default function NewsListGrid() {
   return (
     <>
       <ContentList
-        contentData={newsList.newsArticleSimpleResponseList}
-        eventType="news"
-        styleType="grid"
-        totalPage={newsList?.totalPage}
+        contentData={newsList?.newsArticleSimpleResponseList}
+        totalPage={newsList?.totalPages}
         currentPage={currentPage}
         handlePageChange={handlePageChange}
+        cotentListIsLoading={newsListIsLoading}
+        contentListIsError={newsListIsError}
+        refetch={refetch}
+        eventType={'news'}
+        styleType={'grid'}
       />
     </>
   )

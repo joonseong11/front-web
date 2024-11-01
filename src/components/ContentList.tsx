@@ -1,7 +1,7 @@
 import { NewsArticleCard } from '@/types/INews'
 import { ContentsPagination } from './ContentsPagination'
 import NewsCard from './NewsCard'
-import { EventCard } from './ui/\bEventCard'
+import { EventCard } from './ui/eventCard'
 import { EventContentCard } from '@/types/IEvent'
 import { LoadingSkeleton } from './status/LoadingSkeleton'
 import { ErrorAlert } from './status/ErrorAlert'
@@ -47,12 +47,10 @@ const ContentList = ({
     side: 'hidden laptop:block',
   }
 
-  // 로딩 상태 체크
   if (cotentListIsLoading) {
     return <LoadingSkeleton />
   }
 
-  // 에러 상태 체크 - 조건 단순화
   if (contentListIsError) {
     return (
       <ErrorAlert
@@ -62,7 +60,6 @@ const ContentList = ({
     )
   }
 
-  // 데이터 없음 체크
   if (!contentData || contentData.length === 0) {
     return (
       <EmptyState

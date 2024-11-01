@@ -1,4 +1,4 @@
-import { EventCard } from './ui/\bEventCard'
+import { EventCard } from './ui/eventCard'
 import { useState } from 'react'
 import { ContentsPagination } from './ContentsPagination'
 import { EventContentCard } from '@/types/IEvent'
@@ -42,16 +42,14 @@ export default function EventListGrid() {
     <>
       <ContentList
         contentData={eventsList?.content}
-        eventType="events"
-        styleType="grid"
         totalPage={eventsList?.totalPages}
         currentPage={currentPage}
         handlePageChange={handlePageChange}
-        cotentList={eventsList?.content}
         cotentListIsLoading={eventsListIsLoading}
         contentListIsError={eventListIsError}
-        contentListError={evnetListError}
         refetch={refetch}
+        eventType={'events'}
+        styleType={'grid'}
       />
     </>
   )

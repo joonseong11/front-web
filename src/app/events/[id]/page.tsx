@@ -8,9 +8,9 @@ import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { useEventsQueries } from '@/hooks/useEventsQueries'
 import LabeledContent from '@/components/LabeledContent'
-import ContentList from '@/components/ContentList'
 import { ErrorAlert } from '@/components/status/ErrorAlert'
 import { LoadingSkeleton } from '@/components/status/LoadingSkeleton'
+import ContentList from '@/components/ContentList'
 
 const EventDetailSection = ({
   eventDetail,
@@ -145,32 +145,6 @@ const EventDetailSection = ({
   )
 }
 
-const EventSideSection = ({
-  contentData,
-  totalPage,
-  currentPage,
-  handlePageChange,
-  isLoading,
-  isError,
-  error,
-  refetch,
-}: any) => {
-  return (
-    <ContentList
-      contentData={contentData}
-      eventType="events"
-      styleType="side"
-      totalPage={totalPage}
-      currentPage={currentPage}
-      handlePageChange={handlePageChange}
-      cotentListIsLoading={isLoading}
-      contentListIsError={isError}
-      contentListError={error}
-      refetch={refetch}
-    />
-  )
-}
-
 export default function EventDetailPage() {
   const [currentPage, setCurrentPage] = useState(0) // 초기 페이지 1번으로 설정
 
@@ -192,7 +166,7 @@ export default function EventDetailPage() {
     eventsList,
     eventListIsError,
     eventsListIsLoading,
-    evnetListError,
+
     // 이전 이벤트, 다음 이벤트
     navigate,
     refetch,
@@ -238,15 +212,16 @@ export default function EventDetailPage() {
         <div className="hidden h-auto w-[1px] bg-gray-200 laptop:block" />
 
         {/* 오른쪽 사이드바 */}
-        <EventSideSection
+        <ContentList
           contentData={eventsList?.content}
           totalPage={eventsList?.totalPages}
           currentPage={currentPage}
           handlePageChange={handlePageChange}
-          isLoading={eventsListIsLoading}
-          isError={eventListIsError}
-          error={evnetListError}
+          cotentListIsLoading={eventsListIsLoading}
+          contentListIsError={eventListIsError}
           refetch={refetch}
+          eventType={'events'}
+          styleType={'side'}
         />
       </div>
     </article>
