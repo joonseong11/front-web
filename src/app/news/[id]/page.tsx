@@ -1,17 +1,19 @@
 'use client'
 
 import HomeButton from '@/components/HomeButton'
-import { DEFAULT_IMAGE, NewsArticleCard } from '@/types/INews'
+import { DEFAULT_IMAGE } from '@/types/INews'
 
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import NewsCard from '@/components/NewsCard'
-import { ContentsPagination } from '@/components/ContentsPagination'
 import GptIcon from '@/assets/icon_gpt.svg'
 import { useNewsQueries } from '@/hooks/useNewsQueries'
+import { LoadingSkeleton } from '@/components/status/LoadingSkeleton'
+import { EmptyState } from '@/components/status/EmptyStatus'
+import { ErrorAlert } from '@/components/status/ErrorAlert'
+import ContentList from '@/components/ContentList'
 
 export default function NewsArticlePage() {
   const path = usePathname()
@@ -32,8 +34,8 @@ export default function NewsArticlePage() {
 
     //이벤트 페이지네이션
     newsList,
-    // newsListError,
-    // newsListIsError,
+    newsListError,
+    newsListIsError,
     newsListIsLoading,
 
     // 이전 이벤트, 다음 이벤트
@@ -44,8 +46,6 @@ export default function NewsArticlePage() {
     pageSize,
     articleId,
   })
-  if (newsDetailIsLoading) return <div>loading ... </div>
-  if (newsDetailIsError) return <div>Error: {newsDetailIsError}</div>
   const onChangeEventDetail = (type: 'prev' | 'next') => {
     if (!newsDetail?.id) return
 
@@ -64,10 +64,43 @@ export default function NewsArticlePage() {
     )
   }
 
-  if (newsListIsLoading) return <div>Loading...</div>
-  if (newsDetailIsError || !newsDetail)
-    return <div>Error: {newsDetailIsError}</div>
-  if (newsDetailError) return <div>Error: {newsDetailError.message}</div>
+  // 뉴스 디테일
+  if (newsDetailIsLoading) return <LoadingSkeleton />
+  if (newsDetailIsLoading || !newsDetail || newsDetailIsError) {
+    return (
+      <ErrorAlert
+        error={newsDetail?.message || '뉴스를 불러오는데 실패했습니다'}
+        onRetry={refetch}
+      />
+    )
+  }
+  if (!newsDetail) {
+    return (
+      <EmptyState
+        title="뉴스가 없습니다"
+        description="현재 게시된 뉴스가 없습니다."
+      />
+    )
+  }
+
+  // 오른쪽 뉴스 사이드바
+  if (newsListIsLoading) return <LoadingSkeleton />
+  if (newsListError || !newsList || newsListIsError) {
+    return (
+      <ErrorAlert
+        error={newsListError?.message || '데이터를 불러오는데 실패했습니다'}
+        onRetry={refetch}
+      />
+    )
+  }
+  if (newsList.length === 0) {
+    return (
+      <EmptyState
+        title="뉴스가 없습니다"
+        description="현재 게시된 뉴스가 없습니다."
+      />
+    )
+  }
   return (
     <article className="m-auto mt-16 flex max-h-[1355px] w-full max-w-7xl gap-6 bg-white p-5">
       <div className="flex w-full gap-6">
@@ -152,20 +185,14 @@ export default function NewsArticlePage() {
         {/* 중앙 Divider */}
         <div className="hidden h-auto w-[1px] bg-gray-200 laptop:block" />
         {/* 오른쪽 사이드바 */}
-        <section className="hidden flex-[2] space-y-4 laptop:block">
-          {newsList?.newsArticleSimpleResponseList?.map(
-            (article: NewsArticleCard) => (
-              <NewsCard article={article} key={article.id} />
-            ),
-          )}
-          <div className="mt-6">
-            <ContentsPagination
-              currentPage={currentPage}
-              totalPage={newsList?.totalPage ?? 0}
-              onPageChange={handlePageChange}
-            />
-          </div>
-        </section>
+        <ContentList
+          contentData={newsList?.newsArticleSimpleResponseList}
+          eventType="news"
+          styleType="side"
+          totalPage={newsList?.totalPage}
+          currentPage={currentPage}
+          handlePageChange={handlePageChange}
+        />
       </div>
     </article>
   )
