@@ -199,30 +199,34 @@ export default function EventDetailPage() {
       {/* // 이벤트 이미지 밎 상세 정보 */}
       <div className="flex w-full gap-6">
         {/* 왼쪽 사이드바 */}
-        <EventDetailSection
-          eventDetail={eventDetail}
-          isLoading={eventDetailIsLoading}
-          isError={eventDetailIsError}
-          error={eventDetailIsError}
-          refetch={refetch}
-          onChangeEventDetail={onChangeEventDetail}
-        />
+        <div className="min-w-0 flex-[8]">
+          <EventDetailSection
+            eventDetail={eventDetail}
+            isLoading={eventDetailIsLoading}
+            isError={eventDetailIsError}
+            error={eventDetailIsError}
+            refetch={refetch}
+            onChangeEventDetail={onChangeEventDetail}
+          />
+        </div>
 
         {/* 중앙 Divider */}
         <div className="hidden h-auto w-[1px] bg-gray-200 laptop:block" />
 
         {/* 오른쪽 사이드바 */}
-        <ContentList
-          contentData={eventsList?.content}
-          totalPage={eventsList?.totalPages}
-          currentPage={currentPage}
-          handlePageChange={handlePageChange}
-          cotentListIsLoading={eventsListIsLoading}
-          contentListIsError={eventListIsError}
-          refetch={refetch}
-          eventType={'events'}
-          styleType={'side'}
-        />
+        <div className="min-w-0 flex-[4]">
+          <ContentList
+            contentData={eventsList?.content}
+            totalPage={eventsList?.totalPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+            cotentListIsLoading={eventsListIsLoading}
+            contentListIsError={eventListIsError}
+            refetch={refetch}
+            eventType={'events'}
+            styleType={'side'}
+          />
+        </div>
       </div>
     </article>
   )
