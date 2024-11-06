@@ -6,7 +6,6 @@ import Link from 'next/link'
 import Image from 'next/image'
 import LoginModal from '../LoginModal'
 import LoginButton from '../LoginButton'
-import { MobileNav } from '../MobileNav'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
