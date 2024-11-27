@@ -65,12 +65,16 @@ const CommentInput = () => {
 const CommentList = () => {
   return (
     <div>
-      <CommentItem isReply={true} replyListRepresent={true} replyCount={10} />
+      <CommentContainer
+        isReply={true}
+        replyListRepresent={true}
+        replyCount={10}
+      />
     </div>
   )
 }
 
-const CommentItem = ({
+const CommentContainer = ({
   isReply,
   replyListRepresent,
   replyCount,
@@ -81,6 +85,28 @@ const CommentItem = ({
 }) => {
   return (
     <section>
+      <CommentItem />
+      {isReply && (
+        <details className="mt-4 [&>summary]:list-none">
+          <summary
+            className={`cursor-pointer hover:underline ${replyListRepresent ? 'text-gray-900' : 'text-green'}`}
+          >
+            {`답글${replyListRepresent ? '보기' : '달기'}(${replyCount})`}
+          </summary>
+          <div className='ml-10 mt-4 gap-1 flex flex-col'>
+            <CommentItem />
+            <CommentItem />
+            <CommentInput/>
+          </div>
+        </details>
+      )}
+    </section>
+  )
+}
+
+const CommentItem = () => {
+  return (
+    <>
       <section className="flex items-center justify-between gap-2 p-2">
         <section className="flex items-center gap-2">
           <Image
@@ -101,16 +127,6 @@ const CommentItem = ({
         작성 테스트 중입니다. 댓글 작성 테스트 중입니다. 댓글 작성 테스트
         중입니다.
       </p>
-      {isReply && (
-        <details className="mt-4 [&>summary]:list-none">
-          <summary
-            className={`cursor-pointer hover:underline ${replyListRepresent ? ' text-gray-900' : 'text-green'}`}
-          >
-            {`답글${replyListRepresent ? '보기' : '달기'}(${replyCount})`}
-          </summary>
-          <p>답글 작성 테스트 중입니다.</p>
-        </details>
-      )}
-    </section>
+    </>
   )
 }
