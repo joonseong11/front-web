@@ -11,6 +11,7 @@ import LabeledContent from '@/components/LabeledContent'
 import { ErrorAlert } from '@/components/status/ErrorAlert'
 import { LoadingSkeleton } from '@/components/status/LoadingSkeleton'
 import ContentList from '@/components/ContentList'
+import CommentSection from '@/components/CommentSection'
 
 const EventDetailSection = ({
   eventDetail,
@@ -121,6 +122,7 @@ const EventDetailSection = ({
           </p>
         </div>
       </div>
+      <CommentSection eventId={'1'} />  
       <div className="flex items-center justify-between">
         <Button
           className="bg-solid"
